@@ -11,7 +11,6 @@ game: card.o card_list.o main.o
 
 tests: card.o card_list.o tests.o
 	${CXX} ${CXXFLAGS} card.o card_list.o tests.o -o tests
-	./tests
 
 main_set.o: main_set.cpp
 	${CXX} ${CXXFLAGS} main_set.cpp -c

@@ -4,7 +4,6 @@
 #include <fstream>
 #include <string>
 #include <set>
-#include "card.h"
 
 using namespace std;
 
@@ -89,63 +88,56 @@ int main(int argv, char** argc){
     return 1;
   }
 
-  set<int> aliceHand, bobHand;
+  set<int> hand_A, hand_B;
 
   //Read each file
   while (getline (cardFile1, line) && (line.length() > 0)){
-    if (line.length() >= 3) {
-      string suit  = line.substr(0, 1);
-      string value = line.substr(2);
-      aliceHand.insert(encode(suit, value));
-    }
+    parseLine(line, hand_A);
   }
   cardFile1.close();
 
 
   while (getline (cardFile2, line) && (line.length() > 0)){
-    if (line.length() >= 3) {
-      string suit  = line.substr(0, 1);
-      string value = line.substr(2);
-      bobHand.insert(encode(suit, value));
-    }
+    parseLine(line, hand_B);
   }
   cardFile2.close();
   
   // game time; in main.cpp this should call playGame
   // thankfully we're in main_set
 
-  while (lookForMatch(aliceHand, bobHand)) {
-    for(set<int>::iterator i = aliceHand.begin(); i != aliceHand.end(); ++i) {
-      if (bobHand.count(*i)) {
+  while (lookForMatch(hand_A, hand_B)) {
+    for(set<int>::iterator i = hand_A.begin(); i != hand_A.end(); ++i) {
+      if (hand_B.count(*i)) {
         // picked card matches!
         cout << "Alice picked matching card "; printCard(*i); cout << endl;
-        bobHand.erase(*i);
-        aliceHand.erase(*i);
+        hand_B.erase(*i);
+        hand_A.erase(*i);
         break;
       }
     }
 
     // apparently STL has a reverse iterator! i was looking more into how to use sets and found this on one of the cpp docs!
     // https://en.cppreference.com/cpp/iterator/reverse_iterator
-    for(set<int>::reverse_iterator ri = bobHand.rbegin(); ri != bobHand.rend(); ++ri) {
-      if (aliceHand.count(*ri)) {
+    for(set<int>::reverse_iterator ri = hand_B.rbegin(); ri != hand_B.rend(); ++ri) {
+      if (hand_A.count(*ri)) {
         // picked card matches!
         cout << "Bob picked matching card "; printCard(*ri); cout << endl;
-        aliceHand.erase(*ri);
-        bobHand.erase(*ri);
+        hand_A.erase(*ri);
+        hand_B.erase(*ri);
         break;
       }
     }
   }
 
+  // print cards
   cout << endl << "Alice's cards:" << endl;
-  for (int card:aliceHand) {
+  for (int card:hand_A) {
     printCard(card);
     cout << endl;
   }
 
   cout << endl << "Bob's cards:" << endl;
-  for (int card:bobHand) {
+  for (int card:hand_B) {
     printCard(card);
     cout << endl;
   }

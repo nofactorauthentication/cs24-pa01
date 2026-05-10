@@ -4,7 +4,9 @@
 
 #include "card.h"
 
-int suitRank(const std::string& suit) {
+using namespace std;
+
+int suitRank(const string& suit) {
     if (suit == "c") return 0;
     if (suit == "d") return 1;
     if (suit == "s") return 2;
@@ -12,12 +14,12 @@ int suitRank(const std::string& suit) {
     return -1;
 }
 
-int valueRank(const std::string& value) {
+int valueRank(const string& value) {
     if (value == "a")  return 0;
     if (value == "j")  return 10;
     if (value == "q")  return 11;
     if (value == "k")  return 12;
-    int n = std::stoi(value);
+    int n = stoi(value);
     return n - 1;
 }
 
@@ -35,7 +37,7 @@ bool Card::operator==(const Card& other) const {
 }
 
 // wait if stdout is just ostream, can't we modify the << operator to print a specific way when we use an ostream?
-std::ostream& operator<<(std::ostream& os, Card& c) {
+ostream& operator<<(ostream& os, const Card& c) {
     os << c.suit << " " << c.value;
     return os;
 }

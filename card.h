@@ -8,20 +8,22 @@
 #include <string>
 #include <iostream>
 
-int suitRank(const std::string& suit);
+using namespace std;
 
-int valueRank(const std::string& value);
+int suitRank(const string& suit);
+
+int valueRank(const string& value);
 
 struct Card {
-    std::string suit;
-    std::string value;
+    string suit;
+    string value;
 
-    Card(std::string& s, std::string& v) : suit(s), value(v) {}
+    Card(const string& s, const string& v) : suit(s), value(v) {}
 
     bool operator<(const Card& other) const;
     bool operator==(const Card& other) const;
 };
 
-std::ostream& operator<<(std::ostream& os, Card& c);
+ostream& operator<<(ostream& os, const Card& c);
 
 #endif

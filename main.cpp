@@ -2,9 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "card.h"
 #include "card_list.h"
-//Do not include set in this file
 
 using namespace std;
 
@@ -23,18 +21,21 @@ int main(int argv, char** argc){
     return 1;
   }
 
+  CardList hand_A, hand_B;
+
   //Read each file
   while (getline (cardFile1, line) && (line.length() > 0)){
-
+    parseLine(line, hand_A);
   }
   cardFile1.close();
 
 
   while (getline (cardFile2, line) && (line.length() > 0)){
-
+    parseLine(line, hand_B);
   }
   cardFile2.close();
   
+  playGame(hand_A, hand_B);
   
   return 0;
 }
